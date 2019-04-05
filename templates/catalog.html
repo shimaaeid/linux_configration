@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+
+    <nav class="card" style="background-color:black">
+        <div class="container">
+          <h1 class="text-upper display-inline-block"><a href="/" class="logo" style="background:none; color:#c0b6c9">Shopping Catalog</a></h1>
+
+          {% if not login_session['username'] %}
+            <a href="/login" class="login-link float-right display-block" style="background-color: #9c46e5" >Login</a>
+            {{login_session['username']}}
+          {% else %}
+            <a href="/disconnect" class="login-link float-right display-block"style="background-color: #9c46e5">Logout</a>
+            {{login_session['username']}}
+          {% endif %}
+
+          <div class="clear-fix"></div>
+        </div>
+    </nav>
+    
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="notification">
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Start Categories -->
+    <div class="container">
+
+        <div class="card categories float-left"  style="background-color:#c0b6c9" >
+            <div class="card-header" style="background-color: black" >
+                <h3 class="text-upper" style="color: #9c46e5">Categories</h3>
+            </div>
+
+            <ul>
+              {% for obj in categories: %}
+              <li>
+                  <a href='/categories/{{obj.id}}' class="category">
+                    <div class="overlay"></div>
+                    <h4 class="text-center text-upper" style="background-color:#ebeeee ; color:#b89249">{{obj.name}} </h4>
+                  </a>
+              </li>
+              {% endfor %}
+            </ul>
+        </div>
+        <!-- End Categories -->
+
+        <!-- Start Latest-Items -->
+        <div class="card latest-items float-left"  style="background-color:#c0b6c9">
+            <div class="card-header"  style="background-color: black">
+                <h3 class="text-upper"style="color: #9c46e5">Latest Items</h3>
+            </div>
+            <ul>
+                  {% if login_session['username'] %}
+                    <a href="/addItem" class="add-item-btn btn-green text-upper" style="background-color:black">
+                      &plus; add item
+                    </a>
+                  {% endif %}
+                {% for item in latestItems: %}
+                <li style="" class="text-upper latest-items">
+                  <a href="/categories/{{item.category_id}}/items/{{item.id}}">{{item.name}}</a></li>
+                {% endfor %}
+                <div class="clear-fix"></div>
+            </ul>
+        </div>
+        <div class="clear-fix"></div>
+    </div>
+</body>
+
+</html>

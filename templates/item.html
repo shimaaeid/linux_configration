@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Item Page</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+    <!-- Start Navbar -->
+    <nav class="card"style="background-color: black">
+        <div class="container">
+            <h1 class="text-upper display-inline-block">
+            <a href="/" style="background: none; color:#c0b6c9">
+              Catalog App</a></h1>
+          {% if not login_session['username'] %}
+            <a href="/login" class="login-link float-right display-block"style="background-color: #9c46e5>Login</a>
+            {{login_session['username']}}
+          {% else %}
+            <a href="/disconnect" class="login-link float-right display-block"style="background-color:
+            #9c46e5">Logout</a>
+            {{login_session['username']}}
+          {% endif %}
+            <div class="clear-fix"></div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert">
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+<!-- content -->
+    <div class="container">
+        <div class="card item" style="background-color:#c0b6c9">
+            <div class="img-wrapper">
+            </div>
+
+            <div class="info">
+                <h3 class="text-upper" style="font-size: 21px">{{item.name}} <span style="color: #666; font-style: italic; font-size:15px">
+                   - <a href="/categories/{{item.category_id}}" style="color: 
+                   #b89249">({{item.category.name}})</a></span> </h3>
+                <p>
+                    {{item.description}}
+                </p>
+
+                {% if 'username' in login_session %}
+                <a href="/categories/{{item.category_id}}/items/{{item.id}}/edit">edit</a>
+                <span style="color: #666">|</span>
+                <a href="/categories/{{item.category_id}}/items/{{item.id}}/delete" style="color: red">delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="clear-fix"></div>
+
+</body>
+
+</html>

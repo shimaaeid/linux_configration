@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <title>{{category.name}}</title>
+</head>
+
+<body>
+
+    <!-- Start Navbar -->
+    <nav class="card" style="background-color: black">
+        <div class="container">
+            <h1 class="text-upper display-inline-block"><a href="/" style="background: none; color: #c0b6c9">Catalog App</a></h1>
+
+            {% if 'username' not in login_session%}
+            <a href="/login" class="login-link float-right display-block"style="background-color:#9c46e5">Login</a>
+            {% else %}
+            <a href="/disconnect" class="login-link float-right display-block"style="background-color:#9c46e5">logout</a>
+            {{login_session['username']}}
+            {% endif %}
+            <div class="clear-fix"></div>
+        </div>
+    </nav>
+    <div class="container">
+    <!-- End Navbar -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="notification">
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    </div>
+
+    <!--
+      We have the variables
+        categories, items, category
+      from the backend
+    -->
+    <!--Start Ctegories  -->
+    <div class="container">
+        <div class="card categories-min" style="background-color:#c0b6c9">
+            <div class="card-header" style="background-color: black">
+                <h3 class="text-upper text-center" style="color: #9c46e5">Categories</h3>
+            </div>
+            <ul>
+              {% for categ in categories: %}
+              <li>
+                  <a href="/categories/{{categ.id}}" class="category">
+                      <div class="overlay"></div>
+
+                      <h4 class="text-center text-upper" style="background-color:#ebeeee ; color:#b89249" >{{categ.name}}</h4>
+                  </a>
+              </li>
+              {% endfor %}
+            </ul>
+        </div>
+        <!-- End Ctegories  -->
+
+        <!-- Start Items -->
+        <div class="card items-container" style="background-color:#c0b6c9">
+            <div class="card-header" style="background-color: black">
+                <h2 class="text-center text-upper" style="color: #9c46e5">{{category.name}}</h2>
+            </div>
+            <ul>
+              {% for item in items: %}
+              <li><a href="/categories/{{item.category_id}}/items/{{item.id}}" style ="color:#384563">{{item.name}}</a></li>
+              {% endfor %}
+            </ul>
+        </div>
+        <!-- End Items -->
+        <div class="clear-fix"></div>
+    </div>
+
+</body>
+
+</html>

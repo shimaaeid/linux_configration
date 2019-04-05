@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Item</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+
+    <!-- Start Navbar -->
+    <nav class="card" style="background-color:black">
+        <div class="container">
+          <h1 class="text-upper display-inline-block">
+            <a href="/" style="background: none; color:#c0b6c9">Catalog App</a>
+          </h1>
+          <a href="" class="login-link float-right display-block"style="background-color:#9c46e5">Logout</a>
+          <div class="clear-fix"></div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container">
+      <div class="card form" style="background-color:#c0b6c9">
+              <h4>Edit Item</h4>
+              <form method="POST">
+                  <label for="itemName">Item Name</label>
+                  <input type="text" name="name" id="itemName" placeholder="{{item.name}}" style="background-color:white">
+
+                  <br>
+
+                  <label for="description">Description</label>
+                  <textarea name="description" id="description" placeholder="{{item.description}}" style="background-color:white"></textarea>
+
+                  <label for="category">Category</label>
+                  <select name="category_id" id="category" style="background-color:white; color:green"">
+                      {% for categ in categories: %}
+                        <option style="color:black" value="{{categ.id}}">{{categ.name}}</option>
+                      {% endfor %}
+                  </select>
+                  <br>
+                  <button type="submit" style="background-color: black">Update {{item.name}}</button>
+                  <button type="reset" style="background-color: black">
+                    <a style="color: white" href="/categories/{{item.category_id}}/items/{{item.id}}">Cancel</a>
+                  </button>
+
+              </form>
+          </div>
+    </div>
+
+</body>
+
+</html>
